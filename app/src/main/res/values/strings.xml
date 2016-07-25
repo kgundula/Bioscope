@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Bioscope</string>
+    <string name="action_filter">Sort</string>
+
+    <string name="most_popular">Most Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="release_date">Release Date : </string>
+    <string name="movie_api_key">themoviedb API comes here</string>
+</resources>
