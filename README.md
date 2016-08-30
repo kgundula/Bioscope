@@ -1,6 +1,8 @@
 # Bioscope
-Project P1 (Bioscope) - Udacity Nano Degree
+Project P1 (Bioscope) and P2 - Udacity Nano Degree
 
 The code with themoviedb API.
 
-You will have to add you own API Key for themoviedb on the strings `<string name="movie_api_key">themoviedb API comes here</string>`. 
+You will have to add you own API Key for themoviedb on the gradle.properties
+
+MovieDBApiKey="themoviedb API comes here"
