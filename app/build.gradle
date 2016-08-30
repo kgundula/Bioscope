@@ -10,6 +10,8 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+        generatedDensities = []
     }
     buildTypes {
         release {
@@ -17,10 +19,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'MOVIE_DB_API_KEY', MovieDBApiKey;
+    }
+
+    aaptOptions {
+        additionalParameters "--no-version-vectors"
+    }
+
 }
 
 ext {
-    supportLibVer = "24.1.1"
+    supportLibVer = "24.2.0"
 }
 
 dependencies {
@@ -30,12 +41,17 @@ dependencies {
     compile "com.android.support:design:${supportLibVer}"
     compile "com.android.support:support-v13:${supportLibVer}"
     compile "com.android.support:cardview-v7:${supportLibVer}"
+    compile "com.android.support:support-v4:${supportLibVer}"
 
+    //Data Binding
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    compile 'com.jakewharton:butterknife:8.2.1'
     // Image Library
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    // Networking Library
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.google.code.gson:gson:2.6.2'
-    compile 'com.jakewharton:butterknife:8.2.1'
-    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+
 }

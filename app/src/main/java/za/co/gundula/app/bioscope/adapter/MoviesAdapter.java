@@ -72,7 +72,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return bioScopes.size();
+        return bioScopes == null ? 0 : bioScopes.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

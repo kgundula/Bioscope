@@ -13,7 +13,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,6 +29,13 @@
                 android:value=".MainActivity" />
 
         </activity>
+
+        <provider
+            android:name=".data.BioScopeMovieProvider"
+            android:authorities="za.co.gundula.app.bioscope"
+            android:exported="false"
+            android:syncable="true" />
+
     </application>
 
 </manifest>

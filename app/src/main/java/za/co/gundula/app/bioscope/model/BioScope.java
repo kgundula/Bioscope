@@ -158,7 +158,6 @@ public class BioScope implements Parcelable {
         this.vote_average = vote_average;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
