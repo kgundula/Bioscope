@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -76,7 +77,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     BioScopeApiInterface apiService;
 
     Toolbar toolbar;
-
+    String sort_key;
     private int mPosition = RecyclerView.NO_POSITION;
 
     private static final String[] MOVIE_PROJECTION = new String[]{BioScopeContract.MoviesEntry.COLUMN_NAME_ID,
@@ -134,13 +135,24 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         }
 
         context = getContext();
-
         mSharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         mSharedPrefEditor = mSharedPref.edit();
 
+        sort_key = mSharedPref.getString(Constants.SORT_KEY, "");
         API_KEY = Constants.API_KEY;
-
         movie_loader_loaded = false;
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (getResources().getString(R.string.favorites).equals(sort_key)) {
+            getMovieListLoader();
+        } else {
+            getMovieList(sort_key);
+        }
 
     }
 
@@ -150,7 +162,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
-        final String sort_key = mSharedPref.getString(Constants.SORT_KEY, "");
 
         gridLayoutManager = new GridLayoutManager(context, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -177,13 +188,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         }));
 
         apiService = BioScopeApiClient.getClient().create(BioScopeApiInterface.class);
-
-
-        if (getResources().getString(R.string.favorites).equals(sort_key)) {
-            getMovieListLoader();
-        } else {
-            getMovieList(sort_key);
-        }
 
         bioscopeSwipeToRefresh.setColorSchemeResources(R.color.colorOrange, R.color.colorGreen, R.color.colorBlue);
         bioscopeSwipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

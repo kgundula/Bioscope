@@ -187,6 +187,7 @@ public class BioScopeDetailsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     addMovieToFavorites();
+                    showSnackBar("Added to favorites");
                 }
             });
             button_add_favorites.setVisibility(View.VISIBLE);
@@ -261,6 +262,10 @@ public class BioScopeDetailsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void showSnackBar(String msg) {
+
     }
 
     public interface OnFragmentInteractionListener {
