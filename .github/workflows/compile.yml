@@ -20,8 +20,10 @@ jobs:
 
     - name: Make gradlew executable
       run: chmod +x ./gradlew
+      shell: bash
 
     - name: Compile with Gradle
       run: ./gradlew assembleDebug -PMovieDBApiKey="${{ secrets.IMBD_API_KEY }}"
       env:
         IMBD_API_KEY: ${{ secrets.IMBD_API_KEY }}
+      shell: bash
