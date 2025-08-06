@@ -22,6 +22,6 @@ jobs:
       run: chmod +x ./gradlew
 
     - name: Compile with Gradle
-      run: ./gradlew assembleDebug -PMovieDBApiKey="${{ secrets.IMBD_API_KEY }}"
+      run: ./gradlew assembleDebug -PMovieDBApiKey="${{ secrets.IMDB_API_KEY }}"
       env:
-        IMBD_API_KEY: ${{ secrets.IMBD_API_KEY }}
+        IMDB_API_KEY: ${{ secrets.IMDB_API_KEY }}
