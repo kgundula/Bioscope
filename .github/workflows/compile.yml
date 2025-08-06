@@ -18,12 +18,10 @@ jobs:
         java-version: '8.0.462+8'
         distribution: 'temurin'
 
-    - name: Make gradlew executable
-      run: chmod +x ./gradlew
-      shell: bash
-
     - name: Compile with Gradle
-      run: ./gradlew assembleDebug -PMovieDBApiKey="${{ secrets.IMBD_API_KEY }}"
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: '2.14.1'
+        arguments: assembleDebug -PMovieDBApiKey="${{ secrets.IMBD_API_KEY }}"
       env:
         IMBD_API_KEY: ${{ secrets.IMBD_API_KEY }}
-      shell: bash
