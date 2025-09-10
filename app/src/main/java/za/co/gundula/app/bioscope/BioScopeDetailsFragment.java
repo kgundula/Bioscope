@@ -51,6 +51,9 @@ import za.co.gundula.app.bioscope.utils.Utility;
  * Use the {@link BioScopeDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+/**
+ * A fragment that displays the details of a movie.
+ */
 public class BioScopeDetailsFragment extends Fragment {
 
     @BindView(R.id.release_date)
@@ -70,21 +73,59 @@ public class BioScopeDetailsFragment extends Fragment {
     @BindView(R.id.button_add_favorites)
     ImageView button_add_favorites;
 
-    LinearLayoutManager llmReviews, llmTrailers;
+    /**
+     * The layout manager for the reviews RecyclerView.
+     */
+    LinearLayoutManager llmReviews;
 
+    /**
+     * The layout manager for the trailers RecyclerView.
+     */
+    LinearLayoutManager llmTrailers;
+
+    /**
+     * The movie to display.
+     */
     BioScope mBioScope;
+    /**
+     * Whether the layout is a two-pane layout.
+     */
     boolean mTwoPane;
+    /**
+     * The API key for The Movie Database.
+     */
     String API_KEY = "";
 
+    /**
+     * The service for The Movie Database API.
+     */
     BioScopeApiInterface apiService;
+    /**
+     * The list of movie reviews.
+     */
     List<MovieReview> movieReviews = new ArrayList<MovieReview>();
+    /**
+     * The list of movie trailers.
+     */
     List<MovieTrailer> movieTrailers = new ArrayList<MovieTrailer>();
 
+    /**
+     * The adapter for the movie reviews RecyclerView.
+     */
     MovieReviewAdapter movieReviewsAdapter;
+    /**
+     * The adapter for the movie trailers RecyclerView.
+     */
     MovieTrailerAdapter movieTrailerAdapter;
 
+    /**
+     * The context of the fragment.
+     */
     Context context;
 
+    /**
+     * The listener for fragment interactions.
+     */
     private OnFragmentInteractionListener mListener;
 
     public BioScopeDetailsFragment() {
@@ -95,19 +136,24 @@ public class BioScopeDetailsFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MainFragment.
+     * @param bioScope The movie to display, as a Parcelable.
+     * @param twoPane  A boolean indicating whether the layout is two-pane.
+     * @return A new instance of fragment BioScopeDetailsFragment.
      */
-    public static BioScopeDetailsFragment newInstance(Parcelable param1, boolean param2) {
+    public static BioScopeDetailsFragment newInstance(Parcelable bioScope, boolean twoPane) {
         BioScopeDetailsFragment fragment = new BioScopeDetailsFragment();
         Bundle args = new Bundle();
-        args.putParcelable(BioScopeDetailsActivity.bioscope_object, param1);
-        args.putBoolean(BioScopeDetailsActivity.two_pane, param2);
+        args.putParcelable(BioScopeDetailsActivity.bioscope_object, bioScope);
+        args.putBoolean(BioScopeDetailsActivity.two_pane, twoPane);
         fragment.setArguments(args);
         return fragment;
     }
 
+    /**
+     * Called when the fragment is first created.
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +169,14 @@ public class BioScopeDetailsFragment extends Fragment {
 
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container          If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -196,6 +250,9 @@ public class BioScopeDetailsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Adds the current movie to the user's favorites.
+     */
     public void addMovieToFavorites() {
 
         int id = mBioScope.getId();
@@ -228,6 +285,11 @@ public class BioScopeDetailsFragment extends Fragment {
 
     }
 
+    /**
+     * Called when the fragment's activity has been created and this fragment's view hierarchy instantiated.
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state, this is the state.
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -241,12 +303,23 @@ public class BioScopeDetailsFragment extends Fragment {
         }
     }
 
+    /**
+     * Notifies the listener that a button has been pressed.
+     * This is a placeholder for fragment-to-activity communication.
+     *
+     * @param uri The URI to pass to the listener.
+     */
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
 
+    /**
+     * Called when a fragment is first attached to its context.
+     *
+     * @param context The context to attach to.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -258,20 +331,46 @@ public class BioScopeDetailsFragment extends Fragment {
         }
     }
 
+    /**
+     * Called when the fragment is no longer attached to its activity.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Shows a snackbar with the given message.
+     *
+     * This is a placeholder and does not currently have an implementation.
+     *
+     * @param msg The message to show.
+     */
     public void showSnackBar(String msg) {
 
     }
 
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     */
     public interface OnFragmentInteractionListener {
+        /**
+         * Called when a fragment interaction occurs.
+         *
+         * @param uri The URI of the interaction.
+         */
         void onFragmentInteraction(Uri uri);
     }
 
+    /**
+     * Gets the trailers for a movie.
+     *
+     * @param movie_id The ID of the movie to get trailers for.
+     */
     public void getMovieTrailer(int movie_id) {
         Call<BioScopeMovieResponse> call = apiService.getMovieTrailers(movie_id, API_KEY);
         call.enqueue(new retrofit2.Callback<BioScopeMovieResponse>() {
@@ -290,6 +389,11 @@ public class BioScopeDetailsFragment extends Fragment {
         });
     }
 
+    /**
+     * Gets the reviews for a movie.
+     *
+     * @param movie_id The ID of the movie to get reviews for.
+     */
     public void getMovieReviews(int movie_id) {
 
         Call<BioScopeReviewResponse> call = apiService.getMovieReviews(movie_id, API_KEY);

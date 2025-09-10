@@ -11,7 +11,9 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 
 /**
- * Created by kgundula on 16/07/28.
+ * Content provider for the BioScope app.
+ *
+ * This class provides access to the application's data, allowing other applications to query and modify it.
  */
 public class BioScopeMovieProvider extends ContentProvider {
 
@@ -22,6 +24,11 @@ public class BioScopeMovieProvider extends ContentProvider {
     private static final int MOVIE = 100;
     private static final int MOVIE_ID = 101;
 
+    /**
+     * Builds a UriMatcher for the content provider.
+     *
+     * @return A UriMatcher that can be used to match Uris.
+     */
     private static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = BioScopeContract.CONTENT_AUTHORITY;
@@ -30,12 +37,27 @@ public class BioScopeMovieProvider extends ContentProvider {
         return matcher;
     }
 
+    /**
+     * Initializes the content provider.
+     *
+     * @return true if the provider was successfully loaded, false otherwise.
+     */
     @Override
     public boolean onCreate() {
         mOpenHelper = new BioScopeDbHelper(getContext());
         return true;
     }
 
+    /**
+     * Queries the content provider for data.
+     *
+     * @param uri           The Uri to query.
+     * @param projection    The columns to return.
+     * @param selection     The selection clause.
+     * @param selectionArgs The selection arguments.
+     * @param sortOrder     The sort order.
+     * @return A Cursor containing the results of the query.
+     */
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
@@ -75,6 +97,12 @@ public class BioScopeMovieProvider extends ContentProvider {
         return bioscopeCursor;
     }
 
+    /**
+     * Returns the MIME type of the data at the given URI.
+     *
+     * @param uri The URI to query.
+     * @return The MIME type of the data.
+     */
     @Nullable
     @Override
     public String getType(Uri uri) {
@@ -89,6 +117,13 @@ public class BioScopeMovieProvider extends ContentProvider {
         }
     }
 
+    /**
+     * Inserts a new row into the content provider.
+     *
+     * @param uri           The URI to insert into.
+     * @param contentValues The values to insert.
+     * @return The URI of the newly inserted row.
+     */
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
@@ -112,6 +147,14 @@ public class BioScopeMovieProvider extends ContentProvider {
         return movieUri;
     }
 
+    /**
+     * Deletes rows from the content provider.
+     *
+     * @param uri           The URI to delete from.
+     * @param selection     The selection clause.
+     * @param selectionArgs The selection arguments.
+     * @return The number of rows deleted.
+     */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -132,6 +175,15 @@ public class BioScopeMovieProvider extends ContentProvider {
         return deleted;
     }
 
+    /**
+     * Updates rows in the content provider.
+     *
+     * @param uri           The URI to update.
+     * @param contentValues The values to update.
+     * @param selection     The selection clause.
+     * @param selectionArgs The selection arguments.
+     * @return The number of rows updated.
+     */
     @Override
     public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
 

@@ -7,16 +7,33 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * Created by kgundula on 16/07/24.
+ * A RecyclerView.OnItemTouchListener that provides a simple way to handle item clicks.
  */
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
     private OnItemClickListener mListener;
     private GestureDetector mGestureDetector;
 
+    /**
+     * Interface for receiving item click events.
+     */
     public interface OnItemClickListener {
+        /**
+         * Called when an item is clicked.
+         *
+         * @param view     The view that was clicked.
+         * @param position The position of the item that was clicked.
+         * @param x        The x coordinate of the click.
+         * @param y        The y coordinate of the click.
+         */
         void onItemClick(View view, int position, float x, float y);
     }
 
+    /**
+     * Constructs a new RecyclerItemClickListener.
+     *
+     * @param context  The context to use.
+     * @param listener The listener to notify of item clicks.
+     */
     public RecyclerItemClickListener(Context context, OnItemClickListener listener) {
         mListener = listener;
         mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
@@ -27,6 +44,13 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         });
     }
 
+    /**
+     * Intercepts touch events to detect item clicks.
+     *
+     * @param rv The RecyclerView.
+     * @param e  The MotionEvent.
+     * @return true if the event was intercepted, false otherwise.
+     */
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
         View childView = rv.findChildViewUnder(e.getX(), e.getY());
@@ -37,11 +61,23 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         return false;
     }
 
+    /**
+     * Called when a touch event is dispatched to a view.
+     *
+     * @param rv The RecyclerView.
+     * @param e  The MotionEvent.
+     */
     @Override
     public void onTouchEvent(RecyclerView rv, MotionEvent e) {
 
     }
 
+    /**
+     * Called when a child of RecyclerView does not want RecyclerView and its ancestors to
+     * intercept touch events with onInterceptTouchEvent.
+     *
+     * @param disallowIntercept True if the child does not want the parent to intercept touch events.
+     */
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
