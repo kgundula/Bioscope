@@ -21,19 +21,32 @@ import za.co.gundula.app.bioscope.model.BioScope;
 import za.co.gundula.app.bioscope.utils.Constants;
 
 /**
- * Created by kgundula on 16/07/24.
+ * Adapter for displaying movies in a RecyclerView.
  */
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
     private List<BioScope> bioScopes;
     Context context;
 
+    /**
+     * Constructs a new MoviesAdapter.
+     *
+     * @param context   The context to use.
+     * @param bioScopes A list of movies to display.
+     */
     public MoviesAdapter(Context context, List<BioScope> bioScopes) {
         this.context = context;
         this.bioScopes = bioScopes;
 
     }
 
+    /**
+     * Called when a new ViewHolder is created.
+     *
+     * @param parent   The parent view.
+     * @param viewType The type of the view.
+     * @return A new ViewHolder.
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -41,6 +54,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
+    /**
+     * Called when a ViewHolder is bound to data.
+     *
+     * @param holder   The ViewHolder to bind.
+     * @param position The position of the data in the list.
+     */
     @Override
     public void onBindViewHolder(final MoviesAdapter.ViewHolder holder, int position) {
         final String url = Constants.IMDB_IMG_BASE_URL + "/" + Constants.w185 + "/" + bioScopes.get(position).getPoster_path();
@@ -70,11 +89,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         });
     }
 
+    /**
+     * Gets the number of items in the list.
+     *
+     * @return The number of items in the list.
+     */
     @Override
     public int getItemCount() {
         return bioScopes == null ? 0 : bioScopes.size();
     }
 
+    /**
+     * ViewHolder for a movie.
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.movie_poster)

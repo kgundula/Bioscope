@@ -17,6 +17,9 @@ import butterknife.ButterKnife;
 import za.co.gundula.app.bioscope.model.BioScope;
 import za.co.gundula.app.bioscope.utils.Constants;
 
+/**
+ * An activity that displays the details of a movie.
+ */
 public class BioScopeDetailsActivity extends AppCompatActivity implements BioScopeDetailsFragment.OnFragmentInteractionListener {
 
     Context context;
@@ -28,6 +31,11 @@ public class BioScopeDetailsActivity extends AppCompatActivity implements BioSco
     @BindView(R.id.movie_poster)
     ImageView movie_poster;
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +103,13 @@ public class BioScopeDetailsActivity extends AppCompatActivity implements BioSco
 
     }
 
+    /**
+     * Handles interaction with the contained BioScopeDetailsFragment.
+     * This method is a required implementation of the OnFragmentInteractionListener interface,
+     * but is not currently used in this application.
+     *
+     * @param uri The Uri to describe the interaction.
+     */
     @Override
     public void onFragmentInteraction(Uri uri) {
 

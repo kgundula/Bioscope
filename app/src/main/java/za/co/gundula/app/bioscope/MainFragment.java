@@ -49,17 +49,34 @@ import za.co.gundula.app.bioscope.utils.RecyclerItemClickListener;
  * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+/**
+ * The main fragment of the application.
+ *
+ * This fragment displays a grid of movies and allows the user to sort them by popularity, rating, or view their favorites.
+ */
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    /**
+     * The fragment's parameters.
+     */
     private String mParam1;
     private String mParam2;
 
+    /**
+     * The listener for fragment interactions.
+     */
     private OnFragmentInteractionListener mListener;
 
+    /**
+     * The shared preferences for the application.
+     */
     private SharedPreferences mSharedPref;
+    /**
+     * The editor for the shared preferences.
+     */
     private SharedPreferences.Editor mSharedPrefEditor;
 
     @BindView(R.id.recycler_view_movies)
@@ -69,15 +86,42 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     @BindView(R.id.no_favorites)
     TextView no_favorites;
 
+    /**
+     * The adapter for the movies RecyclerView.
+     */
     MoviesAdapter moviesAdapter;
+    /**
+     * The layout manager for the movies RecyclerView.
+     */
     GridLayoutManager gridLayoutManager;
+    /**
+     * The context of the fragment.
+     */
     Context context;
+    /**
+     * The API key for The Movie Database.
+     */
     String API_KEY = "";
+    /**
+     * The list of movies.
+     */
     List<BioScope> bioScopes = new ArrayList<BioScope>();
+    /**
+     * The service for The Movie Database API.
+     */
     BioScopeApiInterface apiService;
 
+    /**
+     * The toolbar for the activity.
+     */
     Toolbar toolbar;
+    /**
+     * The sort key for the movie list.
+     */
     String sort_key;
+    /**
+     * The position of the selected item in the RecyclerView.
+     */
     private int mPosition = RecyclerView.NO_POSITION;
 
     private static final String[] MOVIE_PROJECTION = new String[]{BioScopeContract.MoviesEntry.COLUMN_NAME_ID,
@@ -126,6 +170,11 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         return fragment;
     }
 
+    /**
+     * Called when the fragment is first created.
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,6 +193,11 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     }
 
+    /**
+     * Called when the fragment's activity has been created and this fragment's view hierarchy instantiated.
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state, this is the state.
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -156,6 +210,14 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container          If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -209,6 +271,11 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         return view;
     }
 
+    /**
+     * Gets the list of movies from the API.
+     *
+     * @param sort_key The sort order for the movies.
+     */
     public void getMovieList(String sort_key) {
 
         bioscopeSwipeToRefresh.setRefreshing(true);
@@ -245,22 +312,38 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         hideNoFavoritesText();
     }
 
+    /**
+     * Hides the "no favorites" text view.
+     */
     public void hideNoFavoritesText() {
         no_favorites.setVisibility(View.GONE);
         no_favorites.invalidate();
     }
 
+    /**
+     * Shows the "no favorites" text view.
+     */
     public void showNoFavoritesText() {
         no_favorites.setVisibility(View.VISIBLE);
         no_favorites.invalidate();
     }
 
+    /**
+     * This method is called when the user presses the button.
+     *
+     * @param uri The URI to pass to the listener.
+     */
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
 
+    /**
+     * Called when a fragment is first attached to its context.
+     *
+     * @param context The context to attach to.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -272,12 +355,18 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         }
     }
 
+    /**
+     * Called when the fragment is no longer attached to its activity.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Gets the list of movies from the database.
+     */
     public void getMovieListLoader() {
         bioscopeSwipeToRefresh.setRefreshing(true);
         String sort_key = mSharedPref.getString(Constants.SORT_KEY, "");
@@ -292,6 +381,13 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     }
 
+    /**
+     * Called when a new Loader needs to be created.
+     *
+     * @param id   The ID whose loader is to be created.
+     * @param args Any arguments supplied by the caller.
+     * @return Return a new Loader instance that is ready to start loading.
+     */
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
@@ -309,6 +405,12 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         );
     }
 
+    /**
+     * Called when a previously created loader has finished its load.
+     *
+     * @param loader The Loader that has finished.
+     * @param data   The data generated by the Loader.
+     */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
@@ -338,6 +440,11 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         }
     }
 
+    /**
+     * Called when a previously created loader is being reset, and thus making its data unavailable.
+     *
+     * @param loader The Loader that is being reset.
+     */
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
@@ -348,6 +455,12 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         super.onResume();
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected.
+     *
+     * @param item The menu item that was selected.
+     * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -385,6 +498,11 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        /**
+         * Called when a fragment interaction occurs.
+         *
+         * @param uri The URI of the interaction.
+         */
         void onFragmentInteraction(Uri uri);
     }
 }

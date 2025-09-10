@@ -11,16 +11,29 @@ import android.view.View;
 import za.co.gundula.app.bioscope.R;
 
 /**
- * Created by kgundula on 16/08/13.
+ * An ItemDecoration that draws a divider between items in a RecyclerView.
  */
 public class RecylerViewDividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private Drawable mDivider;
 
+    /**
+     * Constructs a new RecylerViewDividerItemDecoration.
+     *
+     * @param context The context to use.
+     */
     public RecylerViewDividerItemDecoration(Context context) {
         mDivider = ContextCompat.getDrawable(context, R.drawable.line_divider);
     }
 
+    /**
+     * Gets the offsets of the divider.
+     *
+     * @param outRect The Rect to store the offsets in.
+     * @param view    The View to get the offsets for.
+     * @param parent  The RecyclerView.
+     * @param state   The RecyclerView's state.
+     */
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
@@ -30,6 +43,13 @@ public class RecylerViewDividerItemDecoration extends RecyclerView.ItemDecoratio
         outRect.top = mDivider.getIntrinsicHeight();
     }
 
+    /**
+     * Draws the divider.
+     *
+     * @param canvas The Canvas to draw on.
+     * @param parent The RecyclerView.
+     * @param state  The RecyclerView's state.
+     */
     @Override
     public void onDrawOver(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
         int left = parent.getPaddingLeft();

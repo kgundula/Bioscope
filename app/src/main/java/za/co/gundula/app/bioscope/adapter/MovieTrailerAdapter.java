@@ -19,18 +19,31 @@ import za.co.gundula.app.bioscope.model.MovieTrailer;
 import za.co.gundula.app.bioscope.utils.Constants;
 
 /**
- * Created by kgundula on 16/08/13.
+ * Adapter for displaying movie trailers in a RecyclerView.
  */
 public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapter.ViewHolder> {
 
     Context context;
     private List<MovieTrailer> movieTrailers;
 
+    /**
+     * Constructs a new MovieTrailerAdapter.
+     *
+     * @param context       The context to use.
+     * @param movieTrailers A list of movie trailers to display.
+     */
     public MovieTrailerAdapter(Context context, List<MovieTrailer> movieTrailers) {
         this.context = context;
         this.movieTrailers = movieTrailers;
     }
 
+    /**
+     * Called when a new ViewHolder is created.
+     *
+     * @param parent   The parent view.
+     * @param viewType The type of the view.
+     * @return A new ViewHolder.
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -38,6 +51,12 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
         return new ViewHolder(view);
     }
 
+    /**
+     * Called when a ViewHolder is bound to data.
+     *
+     * @param holder   The ViewHolder to bind.
+     * @param position The position of the data in the list.
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
@@ -59,11 +78,19 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
         });
     }
 
+    /**
+     * Gets the number of items in the list.
+     *
+     * @return The number of items in the list.
+     */
     @Override
     public int getItemCount() {
         return movieTrailers == null ? 0 : movieTrailers.size();
     }
 
+    /**
+     * ViewHolder for a movie trailer.
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.trailer_name)

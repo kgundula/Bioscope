@@ -3,7 +3,7 @@ package za.co.gundula.app.bioscope.utils;
 import za.co.gundula.app.bioscope.BuildConfig;
 
 /**
- * Created by kgundula on 16/07/23.
+ * Contains constants used throughout the application.
  */
 public class Constants {
 

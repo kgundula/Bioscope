@@ -5,7 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by kgundula on 16/07/28.
+ * Manages the application's database.
+ *
+ * This class creates and upgrades the database tables.
  */
 public class BioScopeDbHelper extends SQLiteOpenHelper {
 
@@ -13,10 +15,20 @@ public class BioScopeDbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "bioscope.db";
 
+    /**
+     * Constructs a new BioScopeDbHelper.
+     *
+     * @param context The context to use.
+     */
     public BioScopeDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * Called when the database is created for the first time.
+     *
+     * @param sqLiteDatabase The database.
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
@@ -39,6 +51,13 @@ public class BioScopeDbHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Called when the database needs to be upgraded.
+     *
+     * @param sqLiteDatabase The database.
+     * @param i              The old database version.
+     * @param i1             The new database version.
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 

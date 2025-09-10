@@ -15,18 +15,31 @@ import za.co.gundula.app.bioscope.R;
 import za.co.gundula.app.bioscope.model.MovieReview;
 
 /**
- * Created by kgundula on 16/08/13.
+ * Adapter for displaying movie reviews in a RecyclerView.
  */
 public class MovieReviewAdapter extends RecyclerView.Adapter<MovieReviewAdapter.ViewHolder> {
 
     Context context;
     private List<MovieReview> movieRevies;
 
+    /**
+     * Constructs a new MovieReviewAdapter.
+     *
+     * @param context     The context to use.
+     * @param movieRevies A list of movie reviews to display.
+     */
     public MovieReviewAdapter(Context context, List<MovieReview> movieRevies) {
         this.context = context;
         this.movieRevies = movieRevies;
     }
 
+    /**
+     * Called when a new ViewHolder is created.
+     *
+     * @param parent   The parent view.
+     * @param viewType The type of the view.
+     * @return A new ViewHolder.
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -34,17 +47,31 @@ public class MovieReviewAdapter extends RecyclerView.Adapter<MovieReviewAdapter.
         return new ViewHolder(view);
     }
 
+    /**
+     * Called when a ViewHolder is bound to data.
+     *
+     * @param holder   The ViewHolder to bind.
+     * @param position The position of the data in the list.
+     */
     @Override
     public void onBindViewHolder(final MovieReviewAdapter.ViewHolder holder, int position) {
         holder.review_author.setText(movieRevies.get(position).getAuthor());
         holder.review_content.setText(movieRevies.get(position).getContent());
     }
 
+    /**
+     * Gets the number of items in the list.
+     *
+     * @return The number of items in the list.
+     */
     @Override
     public int getItemCount() {
         return movieRevies == null ? 0 : movieRevies.size();
     }
 
+    /**
+     * ViewHolder for a movie review.
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.review_author)
