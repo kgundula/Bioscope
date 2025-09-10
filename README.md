@@ -15,7 +15,7 @@ BioScope is an Android application that allows users to discover popular and top
 To build and run this project, you will need to provide your own API key for The Movie Database.
 
 1.  **Get an API key:**
-    *   Go to [themoviedb.org](httpss://www.themoviedb.org).
+    *   Go to [themoviedb.org](https://www.themoviedb.org).
     *   Create an account and request an API key.
 
 2.  **Add the API key to the project:**
